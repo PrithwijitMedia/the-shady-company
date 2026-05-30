@@ -6,7 +6,7 @@ from "@/components/renderers/BlockRenderer";
 
 export default async function HomePage() {
 
-  const page =
+  const page: any =
     await getPageById("home");
 
   if (!page)

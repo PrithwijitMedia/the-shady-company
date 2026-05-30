@@ -35,7 +35,7 @@ export default async function CollectionPage({
       )
     );
 
-  const collectionItem =
+  const collectionItem: any =
     collectionsSnapshot.docs
       .map(doc => ({
         id: doc.id,

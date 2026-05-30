@@ -19,7 +19,7 @@ import {
 } from "@/lib/firebase";
 
 import ProtectedRoute
-from "@/components/ProtectedRoutes";
+  from "@/components/ProtectedRoutes";
 
 export default function LeadsPage() {
 
@@ -41,16 +41,11 @@ export default function LeadsPage() {
           "leads"
         )
       );
-
-    const data =
+    const data: any[] =
       snapshot.docs.map(
         doc => ({
-
-          id:
-            doc.id,
-
+          id: doc.id,
           ...doc.data()
-
         })
       );
 
@@ -106,9 +101,9 @@ export default function LeadsPage() {
           lead.id === leadId
 
             ? {
-                ...lead,
-                status
-              }
+              ...lead,
+              status
+            }
 
             : lead
       )

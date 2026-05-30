@@ -26,7 +26,7 @@ export default async function ProjectPage({
       )
     );
 
-  const project =
+  const project: any =
     snapshot.docs
       .map(doc => ({
         id: doc.id,

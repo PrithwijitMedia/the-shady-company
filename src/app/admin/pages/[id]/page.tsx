@@ -34,7 +34,7 @@ export default function PageEditor() {
 
         async function loadPage() {
 
-            const data =
+            const data: any =
                 await getPageById(
                     params.id as string
                 );

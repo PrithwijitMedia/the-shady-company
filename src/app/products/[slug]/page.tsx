@@ -43,7 +43,7 @@ export default async function ProductPage({
       })
     );
 
-  const product =
+  const product: any =
     products.find(
       (item: any) =>
         item.slug === slug
