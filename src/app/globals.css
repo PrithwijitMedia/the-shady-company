@@ -20,10 +20,12 @@
 }
 
 body {
- 
   background: #050505;
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans);
+}
+.display-font {
+  font-family: var(--font-cormorant);
 }
 
 h1,h2,h3 {
@@ -39,4 +41,42 @@ section {
 
 html {
   scroll-behavior: smooth;
+}
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+html,
+body {
+  overflow-x: hidden;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+body::before {
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(255,255,255,.04),
+      transparent 50%
+    );
+
+  z-index: -1;
 }

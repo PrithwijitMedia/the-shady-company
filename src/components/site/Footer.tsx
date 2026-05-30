@@ -66,8 +66,18 @@ export default function Footer() {
           </div>
 
           <div className="flex gap-6">
+{site.instagram && (
+  <a href={site.instagram}>
+    Instagram
+  </a>
+)}
 
-            {footer?.links?.map(
+{site.whatsapp && (
+  <a href={site.whatsapp}>
+    WhatsApp
+  </a>
+)}
+            {/*footer?.links?.map(
               (
                 link: any,
                 index: number
@@ -82,7 +92,7 @@ export default function Footer() {
                 </a>
 
               )
-            )}
+            )*/}
 
           </div>
 

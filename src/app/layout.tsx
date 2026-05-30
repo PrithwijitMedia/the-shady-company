@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
-
 import {
   Geist,
-  Geist_Mono
+  Geist_Mono,
+  Cormorant_Garamond
 } from "next/font/google";
 
 import "./globals.css";
+import FloatingLogo from "@/components/site/FloatingLogo";
 
 import {
   AuthProvider
 } from "@/context/AuthContext";
 
 import Navbar
-from "@/components/site/Navbar";
+  from "@/components/site/Navbar";
 
 import Footer
-from "@/components/site/Footer";
+  from "@/components/site/Footer";
 
 const geistSans = Geist({
   variable:
@@ -31,9 +32,21 @@ const geistMono =
     subsets:
       ["latin"]
   });
-
+const cormorant =
+  Cormorant_Garamond({
+    subsets: ["latin"],
+    weight: [
+      "300",
+      "400",
+      "500",
+      "600",
+      "700"
+    ],
+    variable:
+      "--font-cormorant"
+  });
 export const metadata:
-Metadata = {
+  Metadata = {
 
   title:
     "The Shady Company",
@@ -47,18 +60,22 @@ export default function RootLayout({
   children,
 }: {
   children:
-    React.ReactNode;
+  React.ReactNode;
 }) {
 
   return (
 
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full`}
+      className={`
+    ${geistSans.variable}
+    ${geistMono.variable}
+    ${cormorant.variable}
+    h-full
+  `}
     >
 
       <body className="min-h-full flex flex-col">
-
         <AuthProvider>
 
           <Navbar />

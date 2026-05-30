@@ -312,7 +312,7 @@ export default function ProductEditor() {
             }
           />
 
-          <input
+          {/*<input
             className="w-full border p-3"
             placeholder="Collection"
             value={product.collection}
@@ -322,8 +322,19 @@ export default function ProductEditor() {
                 collection: e.target.value
               })
             }
-          />
-
+          />*/}
+<select
+  value={
+    product.collection || ""
+  }
+  onChange={(e) =>
+    setProduct({
+      ...product,
+      collection:
+        e.target.value
+    })
+  }
+></select>
           <input
             type="number"
             className="w-full border p-3"

@@ -1,11 +1,12 @@
-import Link from "next/link";
-
 import {
   collection,
   getDocs
 } from "firebase/firestore";
 
 import { db } from "@/lib/firebase";
+
+import ProjectCard from "@/components/site/ProjectCard";
+import LuxuryTitle from "@/components/luxury/LuxuryTitle";
 
 export default async function ProjectsPage() {
 
@@ -25,63 +26,82 @@ export default async function ProjectsPage() {
       })
     );
 
+const featured =
+  projects.find(
+    (project: any) =>
+      project.featured === true
+  );
+
+const rest =
+  featured
+    ? projects.filter(
+        (project: any) =>
+          project.id !== featured.id
+      )
+    : projects;
+    
   return (
 
     <main
       className="
       max-w-7xl
       mx-auto
-      px-8
-      py-24
+
+      px-6
+      md:px-10
+      lg:px-16
+
+      pt-40
+      pb-24
       "
     >
 
-      <h1
-        className="
-        text-5xl
-        mb-12
-        "
-      >
+      <LuxuryTitle>
         Projects
-      </h1>
+      </LuxuryTitle>
+
+      {/* Featured */}
+
+      {
+        featured && (
+
+          <div
+            className="
+            mt-20
+            mb-28
+            "
+          >
+
+            <ProjectCard
+              project={featured}
+              featured
+            />
+
+          </div>
+
+        )
+      }
+
+      {/* Remaining */}
 
       <div
         className="
         grid
+
         md:grid-cols-2
-        lg:grid-cols-3
-        gap-8
+
+        gap-16
         "
       >
 
         {
-          projects.map(
+          rest.map(
             (project: any) => (
 
-              <Link
+              <ProjectCard
                 key={project.id}
-                href={`/projects/${project.slug}`}
-              >
-
-                <div
-                  className="
-                  border
-                  rounded-xl
-                  p-6
-                  "
-                >
-
-                  <h2>
-                    {project.title}
-                  </h2>
-
-                  <p>
-                    {project.location}
-                  </p>
-
-                </div>
-
-              </Link>
+                project={project}
+              />
 
             )
           )

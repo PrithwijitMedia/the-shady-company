@@ -1,8 +1,8 @@
 import { getPageById }
-from "@/lib/pages";
+  from "@/lib/pages";
 
 import BlockRenderer
-from "@/components/renderers/BlockRenderer";
+  from "@/components/renderers/BlockRenderer";
 
 export default async function HomePage() {
 
@@ -14,8 +14,11 @@ export default async function HomePage() {
 
   return (
 
-    <main>
-
+    <main
+      className="
+  overflow-hidden
+  "
+    >
       {page.blocks?.map(
         (
           block: any,

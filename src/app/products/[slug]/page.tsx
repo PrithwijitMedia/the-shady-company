@@ -12,9 +12,10 @@ import { db } from "@/lib/firebase";
 import {
   driveToImageUrl
 } from "@/lib/images";
-
+import ProductEnquiryModal
+  from "@/components/site/ProductEnquiryModal";
 import ProductCard
-from "@/components/site/ProductCard";
+  from "@/components/site/ProductCard";
 
 export default async function ProductPage({
   params
@@ -114,6 +115,9 @@ export default async function ProductPage({
             </div>
 
           )}
+          <ProductEnquiryModal
+            product={product}
+          />
 
           <p className="text-neutral-500 mb-8">
             {product.description}

@@ -12,7 +12,7 @@ import {
 } from "react";
 
 import ProtectedRoute
-from "@/components/ProtectedRoutes";
+  from "@/components/ProtectedRoutes";
 
 import {
   db
@@ -120,8 +120,50 @@ export default function SettingsPage() {
                   e.target.value
               })
             }
-          />
+          /><div>
+  <label className="block mb-2">
+    Logo URL
+  </label>
 
+  <input
+    value={site.logoUrl || ""}
+    onChange={(e) =>
+      setSite({
+        ...site,
+        logoUrl: e.target.value
+      })
+    }
+    className="
+    w-full
+    border
+    rounded
+    p-3
+    "
+  />
+</div>
+<input
+  className="w-full border p-3"
+  value={site.instagram || ""}
+  placeholder="Instagram URL"
+  onChange={(e) =>
+    setSite({
+      ...site,
+      instagram: e.target.value
+    })
+  }
+/>
+
+<input
+  className="w-full border p-3"
+  value={site.whatsapp || ""}
+  placeholder="WhatsApp URL"
+  onChange={(e) =>
+    setSite({
+      ...site,
+      whatsapp: e.target.value
+    })
+  }
+/>
           <button
             onClick={save}
             className="

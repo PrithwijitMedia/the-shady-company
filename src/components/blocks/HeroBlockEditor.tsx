@@ -21,9 +21,7 @@ export default function HeroBlockEditor({
   onMoveUp,
   onMoveDown
 }: Props) {
-
   return (
-
     <div className="border rounded-xl p-4">
 
       <div className="flex gap-2 mb-4">
@@ -60,29 +58,64 @@ export default function HeroBlockEditor({
         <input
           className="w-full border p-2 rounded"
           value={block.title || ""}
+          placeholder="Title"
           onChange={(e) =>
             onChange({
               ...block,
               title: e.target.value
             })
           }
-          placeholder="Title"
         />
 
-        <input
-          className="w-full border p-2 rounded"
+        <textarea
+          className="w-full border p-2 rounded min-h-[120px]"
           value={block.subtitle || ""}
+          placeholder="Subtitle"
           onChange={(e) =>
             onChange({
               ...block,
               subtitle: e.target.value
             })
           }
-          placeholder="Subtitle"
+        />
+
+        <input
+          className="w-full border p-2 rounded"
+          value={block.image || ""}
+          placeholder="Hero Image URL"
+          onChange={(e) =>
+            onChange({
+              ...block,
+              image: e.target.value
+            })
+          }
+        />
+
+        <input
+          className="w-full border p-2 rounded"
+          value={block.ctaText || ""}
+          placeholder="CTA Button Text"
+          onChange={(e) =>
+            onChange({
+              ...block,
+              ctaText: e.target.value
+            })
+          }
+        />
+
+        <input
+          className="w-full border p-2 rounded"
+          value={block.ctaLink || ""}
+          placeholder="CTA Link"
+          onChange={(e) =>
+            onChange({
+              ...block,
+              ctaLink: e.target.value
+            })
+          }
         />
 
       </div>
-
     </div>
   );
 }

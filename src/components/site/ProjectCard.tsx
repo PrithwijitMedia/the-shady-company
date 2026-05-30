@@ -1,43 +1,96 @@
 import Link from "next/link";
-import { driveToImageUrl } from "@/lib/images";
+
+import {
+  driveToImageUrl
+} from "@/lib/images";
 
 export default function ProjectCard({
-  project
+  project,
+  featured = false
 }: any) {
 
   return (
 
     <Link
       href={`/projects/${project.slug}`}
+      className="block group"
     >
 
-      <div
-        className="
-        group
-        overflow-hidden
-        rounded-2xl
-        "
-      >
+      <div>
 
-        <img
-          src={driveToImageUrl(
-            project.coverImage
-          )}
+        <div
           className="
-          w-full
-          h-[500px]
-          object-cover
-          transition
-          duration-700
-          group-hover:scale-105
+          overflow-hidden
+          rounded-[2rem]
           "
-        />
+        >
 
-        <div className="mt-4">
+          <img
+            src={
+              driveToImageUrl(
+                project.coverImage
+              )
+            }
+            alt={project.title}
+            className={`
+              w-full
 
-          <h3 className="text-2xl">
+              ${
+                featured
+                  ? "h-[70vh]"
+                  : "h-[450px]"
+              }
+
+              object-cover
+
+              transition-transform
+              duration-700
+
+              group-hover:scale-105
+            `}
+          />
+
+        </div>
+
+        <div
+          className="
+          mt-6
+          "
+        >
+
+          <p
+            className="
+            text-neutral-500
+            text-sm
+            uppercase
+            tracking-widest
+            "
+          >
+            {project.location}
+          </p>
+
+          <h2
+            className="
+            mt-2
+
+            text-3xl
+            md:text-4xl
+
+            font-light
+            "
+          >
             {project.title}
-          </h3>
+          </h2>
+
+          <p
+            className="
+            mt-3
+            text-neutral-400
+            line-clamp-2
+            "
+          >
+            {project.description}
+          </p>
 
         </div>
 

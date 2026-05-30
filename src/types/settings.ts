@@ -1,4 +1,9 @@
 export interface SiteSettings {
-  siteName: string;
-  tagline: string;
+  companyName?: string;
+  tagline?: string;
+  email?: string;
+  logoUrl?: string;
+
+  instagram?: string;
+  whatsapp?: string;
 }

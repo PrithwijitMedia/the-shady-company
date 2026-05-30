@@ -18,9 +18,11 @@ import {
 import ProtectedRoute
 from "@/components/ProtectedRoutes";
 
+import { db } from "@/lib/firebase";
+
 import {
-  db
-} from "@/lib/firebase";
+  driveToImageUrl
+} from "@/lib/images";
 
 export default function ProjectEditor() {
 
@@ -55,7 +57,7 @@ export default function ProjectEditor() {
           new Date()
             .getFullYear(),
 
-        featured: true,
+        featured: false,
 
         coverImage: "",
 
@@ -86,6 +88,7 @@ export default function ProjectEditor() {
       ...snapshot.data()
 
     });
+
   }
 
   async function save() {
@@ -108,6 +111,25 @@ export default function ProjectEditor() {
     alert(
       "Project Saved"
     );
+
+  }
+
+  function addImage() {
+
+    setProject({
+
+      ...project,
+
+      images: [
+
+        ...project.images,
+
+        ""
+
+      ]
+
+    });
+
   }
 
   function updateImage(
@@ -129,23 +151,7 @@ export default function ProjectEditor() {
         next
 
     });
-  }
 
-  function addImage() {
-
-    setProject({
-
-      ...project,
-
-      images: [
-
-        ...project.images,
-
-        ""
-
-      ]
-
-    });
   }
 
   function removeImage(
@@ -166,6 +172,7 @@ export default function ProjectEditor() {
         )
 
     });
+
   }
 
   if (!project)
@@ -179,44 +186,116 @@ export default function ProjectEditor() {
         className="
         max-w-5xl
         mx-auto
+
         p-8
+
+        space-y-8
         "
       >
 
-        <h1
-          className="
-          text-3xl
-          font-bold
-          mb-8
-          "
-        >
-          Project Editor
-        </h1>
-
         <div
           className="
+          flex
+          justify-between
+          items-center
+          "
+        >
+
+          <div>
+
+            <h1
+              className="
+              text-4xl
+              font-light
+              "
+            >
+              Project Editor
+            </h1>
+
+            <p
+              className="
+              text-neutral-500
+              mt-2
+              "
+            >
+              Manage project details
+            </p>
+
+          </div>
+
+          <button
+            onClick={save}
+            className="
+            border
+
+            px-6
+            py-3
+
+            rounded-full
+
+            hover:bg-white
+            hover:text-black
+
+            transition-all
+            "
+          >
+            Save Project
+          </button>
+
+        </div>
+
+        {/* Basic Info */}
+
+        <section
+          className="
+          border
+          rounded-3xl
+          p-6
+
           space-y-4
           "
         >
+
+          <h2
+            className="
+            text-xl
+            "
+          >
+            Basic Information
+          </h2>
 
           <input
             className="
             w-full
             border
             p-3
+            rounded-xl
             "
             placeholder="Title"
             value={project.title}
-            onChange={(e) =>
+            onChange={(e) => {
+
+              const title =
+                e.target.value;
+
               setProject({
 
                 ...project,
 
-                title:
-                  e.target.value
+                title,
 
-              })
-            }
+                slug:
+                  project.slug ||
+                  title
+                    .toLowerCase()
+                    .replaceAll(
+                      " ",
+                      "-"
+                    )
+
+              });
+
+            }}
           />
 
           <input
@@ -224,6 +303,7 @@ export default function ProjectEditor() {
             w-full
             border
             p-3
+            rounded-xl
             "
             placeholder="Slug"
             value={project.slug}
@@ -244,6 +324,7 @@ export default function ProjectEditor() {
             w-full
             border
             p-3
+            rounded-xl
             "
             placeholder="Location"
             value={
@@ -267,6 +348,7 @@ export default function ProjectEditor() {
             w-full
             border
             p-3
+            rounded-xl
             "
             placeholder="Completed Year"
             value={
@@ -286,11 +368,63 @@ export default function ProjectEditor() {
             }
           />
 
+          <label
+            className="
+            flex
+            items-center
+            gap-3
+            "
+          >
+
+            <input
+              type="checkbox"
+              checked={
+                project.featured
+              }
+              onChange={(e) =>
+                setProject({
+
+                  ...project,
+
+                  featured:
+                    e.target.checked
+
+                })
+              }
+            />
+
+            Featured Project
+
+          </label>
+
+        </section>
+
+        {/* Cover Image */}
+
+        <section
+          className="
+          border
+          rounded-3xl
+          p-6
+
+          space-y-4
+          "
+        >
+
+          <h2
+            className="
+            text-xl
+            "
+          >
+            Cover Image
+          </h2>
+
           <input
             className="
             w-full
             border
             p-3
+            rounded-xl
             "
             placeholder="Cover Image URL"
             value={
@@ -308,12 +442,58 @@ export default function ProjectEditor() {
             }
           />
 
+          {
+            project.coverImage && (
+
+              <img
+                src={
+                  driveToImageUrl(
+                    project.coverImage
+                  )
+                }
+                alt=""
+                className="
+                w-full
+                h-[300px]
+
+                object-cover
+
+                rounded-2xl
+                "
+              />
+
+            )
+          }
+
+        </section>
+
+        {/* Description */}
+
+        <section
+          className="
+          border
+          rounded-3xl
+          p-6
+          "
+        >
+
+          <h2
+            className="
+            text-xl
+            mb-4
+            "
+          >
+            Description
+          </h2>
+
           <textarea
-            rows={8}
+            rows={10}
             className="
             w-full
             border
             p-3
+
+            rounded-xl
             "
             placeholder="Description"
             value={
@@ -331,40 +511,59 @@ export default function ProjectEditor() {
             }
           />
 
+        </section>
+
+        {/* Gallery */}
+
+        <section
+          className="
+          border
+          rounded-3xl
+          p-6
+          "
+        >
+
           <div
             className="
-            border
-            rounded-xl
-            p-4
+            flex
+            justify-between
+            items-center
+
+            mb-6
             "
           >
 
-            <div
+            <h2
               className="
-              flex
-              justify-between
-              mb-4
+              text-xl
               "
             >
+              Gallery Images
+            </h2>
 
-              <h2>
-                Gallery Images
-              </h2>
+            <button
+              onClick={
+                addImage
+              }
+              className="
+              border
 
-              <button
-                onClick={
-                  addImage
-                }
-                className="
-                border
-                px-3
-                py-1
-                "
-              >
-                Add Image
-              </button>
+              px-4
+              py-2
 
-            </div>
+              rounded-full
+              "
+            >
+              Add Image
+            </button>
+
+          </div>
+
+          <div
+            className="
+            space-y-4
+            "
+          >
 
             {
               project.images.map(
@@ -376,38 +575,78 @@ export default function ProjectEditor() {
                   <div
                     key={index}
                     className="
-                    flex
-                    gap-2
-                    mb-2
+                    border
+                    rounded-2xl
+                    p-4
                     "
                   >
 
-                    <input
+                    <div
                       className="
-                      flex-1
-                      border
-                      p-2
+                      flex
+                      gap-2
                       "
-                      value={
-                        image
-                      }
-                      onChange={(e) =>
-                        updateImage(
-                          index,
-                          e.target.value
-                        )
-                      }
-                    />
-
-                    <button
-                      onClick={() =>
-                        removeImage(
-                          index
-                        )
-                      }
                     >
-                      Delete
-                    </button>
+
+                      <input
+                        className="
+                        flex-1
+                        border
+                        p-2
+                        rounded-lg
+                        "
+                        value={
+                          image
+                        }
+                        onChange={(e) =>
+                          updateImage(
+                            index,
+                            e.target.value
+                          )
+                        }
+                      />
+
+                      <button
+                        onClick={() =>
+                          removeImage(
+                            index
+                          )
+                        }
+                        className="
+                        border
+                        px-4
+                        rounded-lg
+                        "
+                      >
+                        Delete
+                      </button>
+
+                    </div>
+
+                    {
+                      image && (
+
+                        <img
+                          src={
+                            driveToImageUrl(
+                              image
+                            )
+                          }
+                          alt=""
+                          className="
+                          mt-4
+
+                          h-40
+                          w-full
+
+                          object-cover
+
+                          rounded-xl
+                          "
+                        />
+
+                      )
+                    }
 
                   </div>
 
@@ -417,19 +656,7 @@ export default function ProjectEditor() {
 
           </div>
 
-          <button
-            onClick={save}
-            className="
-            border
-            px-6
-            py-3
-            rounded
-            "
-          >
-            Save Project
-          </button>
-
-        </div>
+        </section>
 
       </main>
 
