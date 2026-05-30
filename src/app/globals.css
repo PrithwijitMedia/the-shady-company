@@ -80,3 +80,24 @@ body::before {
 
   z-index: -1;
 }
+/* Dark Theme Selects */
+
+select {
+  background: #000;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+select option {
+  background: #111;
+  color: #fff;
+}
+
+select:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.4);
+}
+
+select:hover {
+  border-color: rgba(255,255,255,0.3);
+}

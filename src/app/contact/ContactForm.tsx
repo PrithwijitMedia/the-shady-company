@@ -103,7 +103,59 @@ export default function ContactForm() {
         }
 
       );
+await fetch(
+  "/api/telegram",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type":
+        "application/json"
+    },
+    body: JSON.stringify({
 
+      name:
+        form.name,
+
+      phone:
+        form.phone,
+
+      email:
+        form.email,
+
+      message:
+        form.message,
+
+      productName:
+        form.productSlug ||
+        "General Contact",
+
+      
+          type:
+            form.productSlug
+              ? "product"
+              : "general",
+
+          status:
+            "new",
+
+          quoteValue:
+            0,
+
+          notes:
+            "",
+
+          assignedTo:
+            "",
+
+          createdAt:
+            serverTimestamp(),
+
+          updatedAt:
+            serverTimestamp()
+
+    })
+  }
+);
       alert(
         "Inquiry submitted successfully."
       );

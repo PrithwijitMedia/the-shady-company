@@ -105,7 +105,61 @@ export default function ProductEnquiryModal({
                 }
 
             );
+            await fetch(
+                "/api/telegram",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body: JSON.stringify({
 
+
+                        name:
+                            form.name,
+
+                        email:
+                            form.email,
+
+                        phone:
+                            form.phone,
+
+                        message:
+                            form.message,
+
+                        projectType:
+                            form.projectType,
+
+                        productSlug:
+                            product.slug,
+
+                        productName:
+                            product.name,
+
+                        type:
+                            "product",
+
+                        status:
+                            "new",
+
+                        quoteValue:
+                            0,
+
+                        notes:
+                            "",
+
+                        assignedTo:
+                            "",
+
+                        createdAt:
+                            serverTimestamp(),
+
+                        updatedAt:
+                            serverTimestamp()
+                    })
+                }
+            );
             alert(
                 "Enquiry submitted successfully."
             );

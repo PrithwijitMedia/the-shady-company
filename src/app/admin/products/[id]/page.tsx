@@ -14,6 +14,10 @@ import {
 import {
   useParams
 } from "next/navigation";
+import {
+  collection,
+  getDocs
+} from "firebase/firestore";
 
 import ProtectedRoute
   from "@/components/ProtectedRoutes";
@@ -34,6 +38,8 @@ export default function ProductEditor() {
   const id =
     params.id as string;
 
+const [collections, setCollections] =
+  useState<any[]>([]);
   const [product, setProduct] =
     useState<any>(null);
 
@@ -42,6 +48,7 @@ export default function ProductEditor() {
 
     loadProduct();
 
+  loadCollections();
 
   }, []);
 
@@ -236,7 +243,25 @@ export default function ProductEditor() {
 
 
   }
+async function loadCollections() {
 
+  const snapshot =
+    await getDocs(
+      collection(
+        db,
+        "collections"
+      )
+    );
+
+  setCollections(
+    snapshot.docs.map(
+      doc => ({
+        id: doc.id,
+        ...doc.data()
+      })
+    )
+  );
+}
   function removeSpecification(
     index: number
   ) {
@@ -323,18 +348,58 @@ export default function ProductEditor() {
               })
             }
           />*/}
-<select
-  value={
-    product.collection || ""
-  }
-  onChange={(e) =>
-    setProduct({
-      ...product,
-      collection:
-        e.target.value
-    })
-  }
-></select>
+<div className="space-y-2">
+
+  <label>
+    Collection
+  </label>
+
+  <select
+    value={
+      product.collection || ""
+    }
+    onChange={(e) =>
+      setProduct({
+        ...product,
+        collection:
+          e.target.value
+      })
+    }
+    className="
+    w-full
+
+    border
+    border-white/15
+
+    bg-black
+    text-white
+
+    rounded-xl
+
+    p-3
+    "
+  >
+
+    <option value="">
+      None
+    </option>
+
+    {collections.map(
+      (collection: any) => (
+
+        <option
+          key={collection.id}
+          value={collection.slug}
+        >
+          {collection.name}
+        </option>
+
+      )
+    )}
+
+  </select>
+
+</div>
           <input
             type="number"
             className="w-full border p-3"
