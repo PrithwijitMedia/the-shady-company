@@ -3,344 +3,340 @@
 import { useState, useEffect } from "react";
 
 interface Props {
-    block: any;
+  block: any;
+  onChange: (block: any) => void;
+   onDelete?: () => void;
 
-    onChange: (block: any) => void;
+    onMoveUp?: () => void;
+
+    onMoveDown?: () => void;
 }
 
 export default function CarouselBlockEditor({
-    block,
-    onChange,
-    onDelete,
-    onMoveUp,
-    onMoveDown
-}: any) {
-    const [data, setData] = useState({
-        title: "",
-        subtitle: "",
-        source: "projects",
-        featuredOnly: true,
-        limit: 8,
-        showTitle: true,
-        showDescription: true,
-        showButton: true,
-        buttonText: "View",
-        autoScroll: false,
-        speed: 35,
+  block,
+  onChange,
+   onDelete,
+  onMoveUp,
+  onMoveDown
+}: Props) {
+  const [data, setData] = useState({
+    title: "",
+    subtitle: "",
+    source: "projects",
+    featuredOnly: true,
+    limit: 8,
+    showTitle: true,
+    showDescription: true,
+    showButton: true,
+    buttonText: "View",
+    autoScroll: false,
+    speed: 35,
+  });
+
+  useEffect(() => {
+    setData({
+      title: block.title || "",
+      subtitle: block.subtitle || "",
+      source: block.source || "projects",
+      featuredOnly:
+        block.featuredOnly ?? true,
+      limit: block.limit || 8,
+      showTitle:
+        block.showTitle ?? true,
+      showDescription:
+        block.showDescription ?? true,
+      showButton:
+        block.showButton ?? true,
+      buttonText:
+        block.buttonText || "View",
+      autoScroll:
+        block.autoScroll ?? false,
+      speed: block.speed || 35,
     });
+  }, [block]);
 
-    useEffect(() => {
-        setData({
-            title: block.title || "",
-            subtitle: block.subtitle || "",
-            source: block.source || "projects",
-            featuredOnly:
-                block.featuredOnly ?? true,
-            limit: block.limit || 8,
-            showTitle:
-                block.showTitle ?? true,
-            showDescription:
-                block.showDescription ?? true,
-            showButton:
-                block.showButton ?? true,
-            buttonText:
-                block.buttonText || "View",
-            autoScroll:
-                block.autoScroll ?? false,
-            speed: block.speed || 35,
-        });
-    }, [block]);
+  function update(
+    key: string,
+    value: any
+  ) {
+    const next = {
+      ...data,
+      [key]: value,
+    };
 
-    function update(
-        key: string,
-        value: any
-    ) {
-        const next = {
-            ...data,
-            [key]: value,
-        };
+    setData(next);
 
-        setData(next);
+    onChange({
+      ...block,
+      ...next,
+    });
+  }
 
-        onChange({
-            ...block,
-            ...next,
-        });
-    }
+  return (
+    <div className="space-y-6 rounded-xl border p-6">
 
-    return (
-        <div className="space-y-6 rounded-xl border p-6">
+      <div className="flex gap-2 mb-4">
 
-            <div>
-                <label className="block mb-2 font-medium">
-                    Section Title
-                </label>
+        <button onClick={onMoveUp}>
+          ↑
+        </button>
 
-                <input
-                    className="w-full rounded border p-3"
-                    value={data.title}
-                    onChange={(e) =>
-                        update(
-                            "title",
-                            e.target.value
-                        )
-                    }
-                />
-            </div>
+        <button onClick={onMoveDown}>
+          ↓
+        </button>
 
-            <div>
-                <label className="block mb-2 font-medium">
-                    Subtitle
-                </label>
+        <button onClick={onDelete}>
+          Delete
+        </button>
 
-                <textarea
-                    rows={3}
-                    className="w-full rounded border p-3"
-                    value={data.subtitle}
-                    onChange={(e) =>
-                        update(
-                            "subtitle",
-                            e.target.value
-                        )
-                    }
-                />
-            </div>
+      </div>
+      <div>
+        <label className="block mb-2 font-medium">
+          Section Title
+        </label>
 
-            <div>
-                <label className="block mb-2 font-medium">
-                    Source
-                </label>
+        <input
+          className="w-full rounded border p-3"
+          value={data.title}
+          onChange={(e) =>
+            update(
+              "title",
+              e.target.value
+            )
+          }
+        />
+      </div>
 
-                <select
-                    className="w-full rounded border p-3"
-                    value={data.source}
-                    onChange={(e) =>
-                        update(
-                            "source",
-                            e.target.value
-                        )
-                    }
-                >
-                    <option value="projects">
-                        Projects
-                    </option>
+      <div>
+        <label className="block mb-2 font-medium">
+          Subtitle
+        </label>
 
-                    <option value="collections">
-                        Collections
-                    </option>
+        <textarea
+          rows={3}
+          className="w-full rounded border p-3"
+          value={data.subtitle}
+          onChange={(e) =>
+            update(
+              "subtitle",
+              e.target.value
+            )
+          }
+        />
+      </div>
 
-                    <option value="products">
-                        Products
-                    </option>
-                </select>
-            </div>
+      <div>
+        <label className="block mb-2 font-medium">
+          Source
+        </label>
 
-            <div>
-                <label className="block mb-2 font-medium">
-                    Maximum Items
-                </label>
+        <select
+          className="w-full rounded border p-3"
+          value={data.source}
+          onChange={(e) =>
+            update(
+              "source",
+              e.target.value
+            )
+          }
+        >
+          <option value="projects">
+            Projects
+          </option>
 
-                <input
-                    type="number"
-                    min={1}
-                    max={30}
-                    className="w-full rounded border p-3"
-                    value={data.limit}
-                    onChange={(e) =>
-                        update(
-                            "limit",
-                            Number(e.target.value)
-                        )
-                    }
-                />
-            </div>
+          <option value="collections">
+            Collections
+          </option>
 
-            <div className="grid gap-4 md:grid-cols-2">
+          <option value="products">
+            Products
+          </option>
+        </select>
+      </div>
 
-                <label className="flex items-center gap-3">
+      <div>
+        <label className="block mb-2 font-medium">
+          Maximum Items
+        </label>
 
-                    <input
-                        type="checkbox"
-                        checked={data.featuredOnly}
-                        onChange={(e) =>
-                            update(
-                                "featuredOnly",
-                                e.target.checked
-                            )
-                        }
-                    />
+        <input
+          type="number"
+          min={1}
+          max={30}
+          className="w-full rounded border p-3"
+          value={data.limit}
+          onChange={(e) =>
+            update(
+              "limit",
+              Number(e.target.value)
+            )
+          }
+        />
+      </div>
 
-                    Featured Only
+      <div className="grid gap-4 md:grid-cols-2">
 
-                </label>
+        <label className="flex items-center gap-3">
 
-                <label className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            checked={data.featuredOnly}
+            onChange={(e) =>
+              update(
+                "featuredOnly",
+                e.target.checked
+              )
+            }
+          />
 
-                    <input
-                        type="checkbox"
-                        checked={data.showTitle}
-                        onChange={(e) =>
-                            update(
-                                "showTitle",
-                                e.target.checked
-                            )
-                        }
-                    />
+          Featured Only
 
-                    Show Title
+        </label>
 
-                </label>
+        <label className="flex items-center gap-3">
 
-                <label className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            checked={data.showTitle}
+            onChange={(e) =>
+              update(
+                "showTitle",
+                e.target.checked
+              )
+            }
+          />
 
-                    <input
-                        type="checkbox"
-                        checked={
-                            data.showDescription
-                        }
-                        onChange={(e) =>
-                            update(
-                                "showDescription",
-                                e.target.checked
-                            )
-                        }
-                    />
+          Show Title
 
-                    Show Description
+        </label>
 
-                </label>
+        <label className="flex items-center gap-3">
 
-                <label className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            checked={
+              data.showDescription
+            }
+            onChange={(e) =>
+              update(
+                "showDescription",
+                e.target.checked
+              )
+            }
+          />
 
-                    <input
-                        type="checkbox"
-                        checked={data.showButton}
-                        onChange={(e) =>
-                            update(
-                                "showButton",
-                                e.target.checked
-                            )
-                        }
-                    />
+          Show Description
 
-                    Show Button
+        </label>
 
-                </label>
+        <label className="flex items-center gap-3">
 
-            </div>
+          <input
+            type="checkbox"
+            checked={data.showButton}
+            onChange={(e) =>
+              update(
+                "showButton",
+                e.target.checked
+              )
+            }
+          />
 
-            <div>
-                <label className="block mb-2 font-medium">
-                    Button Text
-                </label>
+          Show Button
 
-                <input
-                    className="w-full rounded border p-3"
-                    value={data.buttonText}
-                    onChange={(e) =>
-                        update(
-                            "buttonText",
-                            e.target.value
-                        )
-                    }
-                />
-            </div>
+        </label>
 
-            <div className="grid gap-4 md:grid-cols-2">
+      </div>
 
-                <label className="flex items-center gap-3">
+      <div>
+        <label className="block mb-2 font-medium">
+          Button Text
+        </label>
 
-                    <input
-                        type="checkbox"
-                        checked={data.autoScroll}
-                        onChange={(e) =>
-                            update(
-                                "autoScroll",
-                                e.target.checked
-                            )
-                        }
-                    />
+        <input
+          className="w-full rounded border p-3"
+          value={data.buttonText}
+          onChange={(e) =>
+            update(
+              "buttonText",
+              e.target.value
+            )
+          }
+        />
+      </div>
 
-                    Auto Scroll
+      <div className="grid gap-4 md:grid-cols-2">
 
-                </label>
+        <label className="flex items-center gap-3">
 
-                <div>
+          <input
+            type="checkbox"
+            checked={data.autoScroll}
+            onChange={(e) =>
+              update(
+                "autoScroll",
+                e.target.checked
+              )
+            }
+          />
 
-                    <label className="block mb-2">
-                        Auto Scroll Speed
-                    </label>
+          Auto Scroll
 
-                    <input
-                        type="range"
-                        min={10}
-                        max={100}
-                        value={data.speed}
-                        onChange={(e) =>
-                            update(
-                                "speed",
-                                Number(e.target.value)
-                            )
-                        }
-                        className="w-full"
-                    />
+        </label>
 
-                </div>
+        <div>
 
-            </div>
+          <label className="block mb-2">
+            Auto Scroll Speed
+          </label>
 
-            <div className="rounded-lg bg-neutral-50 p-5">
-
-                <h4 className="mb-2 font-semibold">
-                    Preview
-                </h4>
-
-                <div className="text-sm text-neutral-500">
-                    Source:
-                    <strong> {data.source}</strong>
-
-                    <br />
-
-                    Items:
-                    <strong> {data.limit}</strong>
-
-                    <br />
-
-                    Featured Only:
-                    <strong>
-                        {" "}
-                        {data.featuredOnly
-                            ? "Yes"
-                            : "No"}
-                    </strong>
-                </div>
-
-            </div>
+          <input
+            type="range"
+            min={10}
+            max={100}
+            value={data.speed}
+            onChange={(e) =>
+              update(
+                "speed",
+                Number(e.target.value)
+              )
+            }
+            className="w-full"
+          />
 
         </div>
-    );
-    <div className="flex gap-2 pt-6">
 
-        <button
-            onClick={onMoveUp}
-            className="border rounded px-3 py-2"
-        >
-            ↑ Move Up
-        </button>
+      </div>
 
-        <button
-            onClick={onMoveDown}
-            className="border rounded px-3 py-2"
-        >
-            ↓ Move Down
-        </button>
+      <div className="rounded-lg bg-neutral-50 p-5">
 
-        <button
-            onClick={onDelete}
-            className="ml-auto rounded bg-red-600 px-4 py-2 text-white"
-        >
-            Delete Block
-        </button>
+        <h4 className="mb-2 font-semibold">
+          Preview
+        </h4>
+
+        <div className="text-sm text-neutral-500">
+          Source:
+          <strong> {data.source}</strong>
+
+          <br />
+
+          Items:
+          <strong> {data.limit}</strong>
+
+          <br />
+
+          Featured Only:
+          <strong>
+            {" "}
+            {data.featuredOnly
+              ? "Yes"
+              : "No"}
+          </strong>
+        </div>
+
+      </div>
 
     </div>
+  );
+  
 }
