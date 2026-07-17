@@ -6,6 +6,7 @@ import CTARenderer from "./CTARenderer";
 import SplitRenderer from "./SplitRenderer";
 import QuoteRenderer from "./QuoteRenderer";
 import CollectionGridRenderer from "./CollectionGridRenderer";
+import CarouselRenderer from "./CarouselRenderer";
 import ProjectGridRenderer from "./ProjectGridRenderer";
 
 export default function BlockRenderer({
@@ -31,6 +32,18 @@ export default function BlockRenderer({
 
     case "quote":
       return <QuoteRenderer block={block} />;
+    case "carousel":
+
+
+      return (
+
+        <CarouselRenderer
+          key={block.id}
+          block={block}
+        />
+
+      );
+
 
     case "collectionGrid":
       return (

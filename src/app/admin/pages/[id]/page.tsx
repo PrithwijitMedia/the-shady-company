@@ -16,6 +16,7 @@ import SplitBlockEditor from "@/components/blocks/SplitBlockEditor";
 import QuoteBlockEditor from "@/components/blocks/QuoteBlockEditor";
 import CollectionGridBlockEditor from "@/components/blocks/CollectionGridBlockEditor";
 import ProjectGridBlockEditor from "@/components/blocks/ProjectGridBlockEditor";
+import CarouselBlockEditor from "@/components/blocks/CarouselBlockEditor";
 
 export default function PageEditor() {
 
@@ -162,88 +163,124 @@ export default function PageEditor() {
     }
     function addSplitBlock() {
 
-  setBlocks([
-    ...blocks,
-    {
-      id:
-        crypto.randomUUID(),
+        setBlocks([
+            ...blocks,
+            {
+                id:
+                    crypto.randomUUID(),
 
-      type:
-        "split",
+                type:
+                    "split",
 
-      title:
-        "New Split Block",
+                title:
+                    "New Split Block",
 
-      content:
-        "",
+                content:
+                    "",
 
-      image:
-        "",
+                image:
+                    "",
 
-      imageLeft:
-        true
+                imageLeft:
+                    true
+            }
+        ]);
+
+        setShowAddBlock(false);
     }
-  ]);
+    function addQuoteBlock() {
 
-  setShowAddBlock(false);
-}
-function addQuoteBlock() {
+        setBlocks([
+            ...blocks,
+            {
+                id:
+                    crypto.randomUUID(),
 
-  setBlocks([
-    ...blocks,
-    {
-      id:
-        crypto.randomUUID(),
+                type:
+                    "quote",
 
-      type:
-        "quote",
+                quote:
+                    "",
 
-      quote:
-        "",
+                author:
+                    ""
+            }
+        ]);
 
-      author:
-        ""
+        setShowAddBlock(false);
     }
-  ]);
+    function addProjectGridBlock() {
 
-  setShowAddBlock(false);
-}
-function addProjectGridBlock() {
+        setBlocks([
+            ...blocks,
+            {
+                id:
+                    crypto.randomUUID(),
 
-  setBlocks([
-    ...blocks,
-    {
-      id:
-        crypto.randomUUID(),
+                type:
+                    "projectGrid",
 
-      type:
-        "projectGrid",
+                title:
+                    "Projects"
+            }
+        ]);
 
-      title:
-        "Projects"
+        setShowAddBlock(false);
     }
-  ]);
+    function addCarouselBlock() {
 
-  setShowAddBlock(false);
-}
-function addCollectionGridBlock() {
+        setBlocks([
+            ...blocks,
+            {
+                id: crypto.randomUUID(),
 
-  setBlocks([
-    ...blocks,
-    {
-      id:
-        crypto.randomUUID(),
+                type: "carousel",
 
-      type:
-        "collectionGrid",
+                title: "Featured Projects",
 
-      title:
-        "Collections"
+                subtitle: "",
+
+                source: "projects",
+
+                featuredOnly: true,
+
+                limit: 8,
+
+                showTitle: true,
+
+                showDescription: true,
+
+                showButton: true,
+
+                buttonText: "View Project",
+
+                autoScroll: false,
+
+                speed: 35
+            }
+        ]);
+
+        setShowAddBlock(false);
+
     }
-  ]);
+    function addCollectionGridBlock() {
 
-  setShowAddBlock(false);
-}
+        setBlocks([
+            ...blocks,
+            {
+                id:
+                    crypto.randomUUID(),
+
+                type:
+                    "collectionGrid",
+
+                title:
+                    "Collections"
+            }
+        ]);
+
+        setShowAddBlock(false);
+    }
     function addTextBlock() {
 
         setBlocks([
@@ -400,6 +437,43 @@ function addCollectionGridBlock() {
                                 );
                             }
                             if (
+                                block.type === "carousel"
+                            ) {
+
+                                return (
+
+                                    <CarouselBlockEditor
+                                        key={index}
+                                        block={block}
+
+                                        onChange={(updated) => {
+
+                                            const next = [...blocks];
+
+                                            next[index] = updated;
+
+                                            setBlocks(next);
+
+                                        }}
+
+                                        onDelete={() =>
+                                            deleteBlock(index)
+                                        }
+
+                                        onMoveUp={() =>
+                                            moveBlockUp(index)
+                                        }
+
+                                        onMoveDown={() =>
+                                            moveBlockDown(index)
+                                        }
+
+                                    />
+
+                                );
+
+                            }
+                            if (
                                 block.type === "gallery"
                             ) {
 
@@ -460,127 +534,127 @@ function addCollectionGridBlock() {
                                 );
                             }
                             if (
-  block.type === "split"
-) {
+                                block.type === "split"
+                            ) {
 
-  return (
+                                return (
 
-    <SplitBlockEditor
-      key={index}
-      block={block}
+                                    <SplitBlockEditor
+                                        key={index}
+                                        block={block}
 
-      onChange={(updated) => {
+                                        onChange={(updated) => {
 
-        const next =
-          [...blocks];
+                                            const next =
+                                                [...blocks];
 
-        next[index] =
-          updated;
+                                            next[index] =
+                                                updated;
 
-        setBlocks(next);
-      }}
+                                            setBlocks(next);
+                                        }}
 
-      onDelete={() =>
-        deleteBlock(index)
-      }
+                                        onDelete={() =>
+                                            deleteBlock(index)
+                                        }
 
-      onMoveUp={() =>
-        moveBlockUp(index)
-      }
+                                        onMoveUp={() =>
+                                            moveBlockUp(index)
+                                        }
 
-      onMoveDown={() =>
-        moveBlockDown(index)
-      }
-    />
+                                        onMoveDown={() =>
+                                            moveBlockDown(index)
+                                        }
+                                    />
 
-  );
-}
-if (
-  block.type === "quote"
-) {
+                                );
+                            }
+                            if (
+                                block.type === "quote"
+                            ) {
 
-  return (
+                                return (
 
-    <QuoteBlockEditor
-      key={index}
-      block={block}
+                                    <QuoteBlockEditor
+                                        key={index}
+                                        block={block}
 
-      onChange={(updated) => {
+                                        onChange={(updated) => {
 
-        const next =
-          [...blocks];
+                                            const next =
+                                                [...blocks];
 
-        next[index] =
-          updated;
+                                            next[index] =
+                                                updated;
 
-        setBlocks(next);
-      }}
+                                            setBlocks(next);
+                                        }}
 
-      onDelete={() =>
-        deleteBlock(index)
-      }
+                                        onDelete={() =>
+                                            deleteBlock(index)
+                                        }
 
-      onMoveUp={() =>
-        moveBlockUp(index)
-      }
+                                        onMoveUp={() =>
+                                            moveBlockUp(index)
+                                        }
 
-      onMoveDown={() =>
-        moveBlockDown(index)
-      }
-    />
+                                        onMoveDown={() =>
+                                            moveBlockDown(index)
+                                        }
+                                    />
 
-  );
-}
-if (
-  block.type === "collectionGrid"
-) {
+                                );
+                            }
+                            if (
+                                block.type === "collectionGrid"
+                            ) {
 
-  return (
+                                return (
 
-    <CollectionGridBlockEditor
-      key={index}
-      block={block}
+                                    <CollectionGridBlockEditor
+                                        key={index}
+                                        block={block}
 
-      onDelete={() =>
-        deleteBlock(index)
-      }
+                                        onDelete={() =>
+                                            deleteBlock(index)
+                                        }
 
-      onMoveUp={() =>
-        moveBlockUp(index)
-      }
+                                        onMoveUp={() =>
+                                            moveBlockUp(index)
+                                        }
 
-      onMoveDown={() =>
-        moveBlockDown(index)
-      }
-    />
+                                        onMoveDown={() =>
+                                            moveBlockDown(index)
+                                        }
+                                    />
 
-  );
-}
-if (
-  block.type === "projectGrid"
-) {
+                                );
+                            }
+                            if (
+                                block.type === "projectGrid"
+                            ) {
 
-  return (
+                                return (
 
-    <ProjectGridBlockEditor
-      key={index}
-      block={block}
+                                    <ProjectGridBlockEditor
+                                        key={index}
+                                        block={block}
 
-      onDelete={() =>
-        deleteBlock(index)
-      }
+                                        onDelete={() =>
+                                            deleteBlock(index)
+                                        }
 
-      onMoveUp={() =>
-        moveBlockUp(index)
-      }
+                                        onMoveUp={() =>
+                                            moveBlockUp(index)
+                                        }
 
-      onMoveDown={() =>
-        moveBlockDown(index)
-      }
-    />
+                                        onMoveDown={() =>
+                                            moveBlockDown(index)
+                                        }
+                                    />
 
-  );
-}
+                                );
+                            }
                             return (
 
                                 <div
@@ -646,29 +720,35 @@ if (
                                 >
                                     CTA
                                 </button>
-<button
-  onClick={addSplitBlock}
->
-  Split
-</button>
+                                <button
+                                    onClick={addSplitBlock}
+                                >
+                                    Split
+                                </button>
 
-<button
-  onClick={addQuoteBlock}
->
-  Quote
-</button>
+                                <button
+                                    onClick={addQuoteBlock}
+                                >
+                                    Quote
+                                </button>
 
-<button
-  onClick={addCollectionGridBlock}
->
-  Collections
-</button>
+                                <button
+                                    onClick={addCollectionGridBlock}
+                                >
+                                    Collections
+                                </button>
 
-<button
-  onClick={addProjectGridBlock}
->
-  Projects
-</button>
+                                <button
+                                    onClick={addProjectGridBlock}
+                                >
+                                    Projects
+                                </button>
+                                <button
+                                    className="border rounded px-4 py-2 bg-black text-white"
+                                    onClick={addCarouselBlock}
+                                >
+                                    Carousel
+                                </button>
                             </div>
 
                         </div>
