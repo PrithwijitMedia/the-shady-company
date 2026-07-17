@@ -113,7 +113,6 @@ const items =
                 <div
                     className="
                     relative
-                    min-h-screen
                     flex
                     items-end
                     h-full
@@ -123,6 +122,7 @@ const items =
                     object-center
                     md:object-center
                     inset-0
+                    no-scrollbar
              flex
             gap-8
             overflow-x-auto
